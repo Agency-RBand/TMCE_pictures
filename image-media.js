@@ -55,6 +55,7 @@ const config = () => ({
 		},
 	},
 });
+
 function getImageDimensions(url) {
 	return new Promise((resolve, reject) => {
 		const img = new Image();
@@ -98,6 +99,21 @@ var PictureSettings = {
 			primary: true,
 		},
 	],
+	onChange: async (api, detail) => {
+		const url = api.getData().image.value;
+
+		if (url) {
+			try {
+				const dimensions = await getImageDimensions(url);
+				api.setData({
+					width: dimensions.width.toString(),
+					height: dimensions.height.toString(),
+				});
+			} catch (error) {
+				console.error('Ошибка при загрузке изображения:', error);
+			}
+		}
+	},
 	onAction: (dialogApi, details) => {
 		if (details.name === 'addField') {
 			const currentData = dialogApi.getData();
@@ -155,6 +171,7 @@ var PictureSettings = {
 			dialogApi.showTab('image_media_tab');
 		}
 	},
+
 	onSubmit: function (api) {
 		const data = api.getData();
 
@@ -204,6 +221,7 @@ var PictureSettings = {
 		}">
           </picture>
       `;
+		console.log('asjhfdghjdfhgjdfhjgdhfj');
 
 		if (data.caption) {
 			const figure = `
@@ -211,9 +229,11 @@ var PictureSettings = {
                 ${pictureHTML}
                 <figcaption contenteditable="true">caption</figcaption>
         </figure>`;
-			tinymce.activeEditor.execCommand('mceInsertContent', false, figure);
+			// tinymce.activeEditor.execCommand('mceInsertContent', false, figure);
+			tinymce.activeEditor.insertContent(figure);
 		} else {
-			tinymce.activeEditor.execCommand('mceInsertContent', false, pictureHTML);
+			// tinymce.activeEditor.execCommand('mceInsertContent', false, pictureHTML);
+			tinymce.activeEditor.insertContent(pictureHTML);
 		}
 
 		api.close();
@@ -225,8 +245,174 @@ var PictureSettings = {
 
 document.addEventListener('DOMContentLoaded', () => {
 	tinymce.PluginManager.add('image_media', function (editor, url) {
+		function getRelativeUrl(fullUrl) {
+			try {
+				const urlObj = new URL(fullUrl);
+				return urlObj.pathname + urlObj.search + urlObj.hash;
+			} catch (e) {
+				return fullUrl;
+			}
+		}
+
 		function openDialog() {
-			return editor.windowManager.open(PictureSettings);
+			const selectedNode = editor.selection.getNode();
+			let initialData = {};
+
+			if (selectedNode.closest('figure')) {
+				const figure = selectedNode.closest('figure');
+				const picture = figure.querySelector('picture');
+				const img = figure.querySelector('img');
+				const figcaption = figure.querySelector('figcaption');
+
+				if (img) {
+					initialData = {
+						image: { value: getRelativeUrl(img.src) },
+						alt: img.alt || '',
+						width: img.width.toString(),
+						height: img.height.toString(),
+						caption: !!figcaption,
+					};
+
+					if (picture) {
+						const sources = picture.querySelectorAll('source');
+						sources.forEach((source, index) => {
+							const media = source.getAttribute('media');
+							const srcset = source.getAttribute('srcset');
+
+							if (media && srcset) {
+								const mediaMatches = media.match(
+									/\(max-width:\s*(\d+)px\)\s*and\s*\(min-width:\s*(\d+)px\)/i
+								);
+								if (mediaMatches) {
+									initialData[`min-${index}`] = mediaMatches[2];
+									initialData[`max-${index}`] = mediaMatches[1];
+								} else {
+									const maxWidthMatch = media.match(
+										/\(max-width:\s*(\d+)px\)/i
+									);
+									const minWidthMatch = media.match(
+										/\(min-width:\s*(\d+)px\)/i
+									);
+
+									if (maxWidthMatch) {
+										initialData[`max-${index}`] = maxWidthMatch[1];
+									}
+									if (minWidthMatch) {
+										initialData[`min-${index}`] = minWidthMatch[1];
+									}
+								}
+
+								initialData[`source-${index}`] = {
+									value: getRelativeUrl(srcset),
+								};
+							}
+						});
+					}
+				}
+			} else if (selectedNode.closest('picture')) {
+				const picture = selectedNode.closest('picture');
+				const img = picture.querySelector('img');
+				const sources = picture.querySelectorAll('source');
+
+				if (img) {
+					initialData = {
+						image: { value: getRelativeUrl(img.src) },
+						alt: img.alt || '',
+						width: img.width.toString(),
+						height: img.height.toString(),
+						caption: false,
+					};
+
+					sources.forEach((source, index) => {
+						const media = source.getAttribute('media');
+						const srcset = source.getAttribute('srcset');
+
+						if (media && srcset) {
+							const mediaMatches = media.match(
+								/\(max-width:\s*(\d+)px\)\s*and\s*\(min-width:\s*(\d+)px\)/i
+							);
+							if (mediaMatches) {
+								initialData[`min-${index}`] = mediaMatches[2];
+								initialData[`max-${index}`] = mediaMatches[1];
+							} else {
+								const maxWidthMatch = media.match(/\(max-width:\s*(\d+)px\)/i);
+								const minWidthMatch = media.match(/\(min-width:\s*(\d+)px\)/i);
+
+								if (maxWidthMatch) {
+									initialData[`max-${index}`] = maxWidthMatch[1];
+								}
+								if (minWidthMatch) {
+									initialData[`min-${index}`] = minWidthMatch[1];
+								}
+							}
+
+							initialData[`source-${index}`] = {
+								value: getRelativeUrl(srcset),
+							};
+						}
+					});
+				}
+			}
+
+			const dialog = editor.windowManager.open({
+				...PictureSettings,
+				initialData: initialData,
+			});
+
+			const tabMedia = PictureSettings.body.tabs.find(
+				tab => tab.name === 'image_media_tab'
+			);
+			Object.keys(initialData).forEach(key => {
+				if (key.startsWith('source-')) {
+					const index = key.replace('source-', '');
+					const newField = {
+						type: 'label',
+						label: ' ',
+						items: [
+							{
+								type: 'htmlpanel',
+								html: `<div style="background-color: #ccc; width: 100%; height: ${
+									index === '0' ? '0px' : '1px'
+								}; margin-top: ${index === '0' ? '0px' : '16px'};"></div>`,
+							},
+							{
+								type: 'htmlpanel',
+								html: `<h6 style="margin-top: ${
+									index === '0' ? '0px' : '10px'
+								};">Медиа элемент ${parseInt(index) + 1}</h6>`,
+							},
+							{
+								name: 'source-' + index,
+								type: 'urlinput',
+								label: 'Source',
+							},
+							{
+								type: 'bar',
+								items: [
+									{
+										type: 'input',
+										name: 'min-' + index,
+										label: 'Мин. ширина',
+										inputMode: 'numeric',
+										pattern: '\\d*',
+									},
+									{
+										type: 'input',
+										name: 'max-' + index,
+										label: 'Макс. ширина',
+										inputMode: 'numeric',
+										pattern: '\\d*',
+									},
+								],
+							},
+						],
+					};
+					tabMedia.items.push(newField);
+				}
+			});
+
+			dialog.redial(PictureSettings);
+			dialog.setData(initialData);
 		}
 
 		editor.ui.registry.addButton('image_media', {
