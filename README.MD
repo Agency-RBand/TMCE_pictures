@@ -1,42 +1,32 @@
-# Плагин для добавления изображений в редактор TinyMCE
-Важно! Плагин протестирован на TinyMCE 5.2.1.
+# Picture and Source Plugin for TinyMCE – Responsive Images in the Editor
 
-На других версиях плагин не тестировалсяю
+Important!!!
+1) The plugin has been tested on TinyMCE 5.2.1.
+   It has not been tested on other versions, but it should easily adapt.
 
-### Плагин picture позволяет реализовать тег picture с различными source в зависимости от ширины экрана
+The `image_picture` plugin is designed to address this issue in the TinyMCE editor. It automatically adds support for the `<picture>` tag, which allows uploading different versions of images depending on the screen width. This makes your content more flexible and the pages faster to load.
 
-### Интеграция плагина:
+#### 1. Instruction in English: [https://rband.pro/en/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/en/useful/scripts-plugins/tinymce-picture-plugin)
 
-1. Клонируем или скачиваем репозиторий
+# Плагин picture и source для TinyMCE – адаптивные изображения в редакторе
+Важно!!!
+1) Плагин протестирован на TinyMCE 5.2.1.
+   На других версиях плагин не тестировался, но должен легко адаптироваться.
 
-2. Находим каталог TinyMCE и папку plugins. Копируем папку image-picture из репозитория в папку plugins
+Плагин image_picture предназначен для решения этой проблемы в редакторе TinyMCE. Он автоматически добавляет поддержку тега <picture>, который позволяет загружать разные версии изображений в зависимости от ширины экрана. Это делает ваш контент более гибким, а страницы — быстрее загружаемыми.
 
-3. Находим код инициализации TinyMCE, например:
-```js
-tinymce.init({...});
-```
-4. Подключем внешний плагин в конфигурацию инициализации TinyMCE:
-```js
-tinymce.init({
-    plugins: 'image_picture ...', // подключаем плагин для инициализации
-    ...,
-    external_plugins: {
-        ... // Любые другие внешние плагины в вашей конфигурации
-        image_picture: "plugins/image-picture/image-picture.js",
-    },
-});
-```
-5. Подключаем плагин в toolbar и в другие удобные меню или контекстные меню, например:
-```js
-tinymce.init({
-    toolbar: 'image_picture ...',
-    contextmenu: 'image_picture ...',
-});
-```
+#### 1. Иснтрукция на русском языке: [https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin)
 
-6. Будет полезно! Обновить кеш браузера для загрузки актуальной версии скриптов
+# Picture i Source plugin za TinyMCE – Responsivna slika u editoru
 
-### Немного скриншотов
+Važno!!!
+1) Plugin je testiran na TinyMCE 5.2.1.
+   Na drugim verzijama plugin nije testiran, ali bi trebalo lako da se adaptira.
+
+Plugin `image_picture` je dizajniran da reši ovaj problem u TinyMCE editoru. Automatski dodaje podršku za `<picture>` tag, koji omogućava učitavanje različitih verzija slika u zavisnosti od širine ekrana. Ovo čini vaš sadržaj fleksibilnijim, a stranice bržim za učitavanje.
+
+#### 1. Uputstvo na ruskom jeziku: [https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin)
+
 ![screenshot](images/1.png)
 ![screenshot](images/2.png)
 ![screenshot](images/3.png)
