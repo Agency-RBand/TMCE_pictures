@@ -21,7 +21,7 @@ tinymce.init({
     plugins: 'image_picture ...', // подключаем плагин для инициализации
     ...,
     external_plugins: {
-        //...  Любые другие внешние плагины в вашей конфигурации
+        ... // Любые другие внешние плагины в вашей конфигурации
         "image_picture": "plugins/image-picture/image-picture.js",
     },
 });
