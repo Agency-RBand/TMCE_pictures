@@ -8,6 +8,8 @@ The `image_picture` plugin is designed to address this issue in the TinyMCE edit
 
 #### 1. Instruction in English: [https://rband.pro/en/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/en/useful/scripts-plugins/tinymce-picture-plugin)
 
+---
+
 # Плагин picture и source для TinyMCE – адаптивные изображения в редакторе
 Важно!!!
 1) Плагин протестирован на TinyMCE 5.2.1.
@@ -18,6 +20,8 @@ The `image_picture` plugin is designed to address this issue in the TinyMCE edit
 #### 1. Иснтрукция на русском языке: [https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin)
 
 # Picture i Source plugin za TinyMCE – Responsivna slika u editoru
+
+---
 
 Važno!!!
 1) Plugin je testiran na TinyMCE 5.2.1.
