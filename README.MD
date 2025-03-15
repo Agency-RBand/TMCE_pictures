@@ -1,38 +1,43 @@
 # Плагин для добавления изображений в редактор TinyMCE
+Важно! Плагин протестирован на TinyMCE 5.2.1.
 
-## В отличии от стандартного плагина image у данного есть возможность добавления конструкции picture source
+На других версиях плагин не тестировалсяю
 
-![screenshot](/1.png)
+### Плагин picture позволяет реализовать тег picture с различными source в зависимости от ширины экрана
 
-### Старт работы:
+### Интеграция плагина:
 
-1. Клонируем либо скачиваем репозиторий
+1. Клонируем или скачиваем репозиторий
 
-```bash
-git clone <ссылка на репозиторий> <папка назначения или .>
+2. Находим каталог TinyMCE и папку plugins. Копируем папку image-picture из репозитория в папку plugins
+
+3. Находим код инициализации TinyMCE, например:
+```js
+tinymce.init({...});
 ```
-
-2. Подключаем в header админки
-
-через HTML тег script
-
-```html
-<script src="<Путь до файла>" type="text/javascript"></script>
-```
-
-через header.php
-
-```php
-$this->document->addScript('<Путь до файла>');
-```
-
-3. Подключение плагина в TinyMCE
-
+4. Подключем внешний плагин в конфигурацию инициализации TinyMCE:
 ```js
 tinymce.init({
-	selector: tinymce_selector,
-	plugins: 'image_media ...other plugins',
-	toolbar: 'image_media ...other plugins',
-	// ...other,
+    plugins: 'image_picture ...', // подключаем плагин для инициализации
+    ...,
+    external_plugins: {
+        //...  Любые другие подключеные плагины в вашей конфигурации
+        "image_picture": "plugins/image-picture/image-picture.js",
+    },
 });
 ```
+5. Подключаем плагин в toolbar и в другие удобные меню или контекстные меню, например:
+```js
+tinymce.init({
+    toolbar: 'image_picture ...',
+    contextmenu: 'image_picture ...',
+});
+```
+
+6. Будет полезно! Обновить кеш браузера для загрузки актуальной версии скриптов
+
+### Немного скриншотов
+![screenshot](images/1.png)
+![screenshot](images/2.png)
+![screenshot](images/3.png)
+![screenshot](images/4.png)
