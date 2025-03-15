@@ -17,11 +17,11 @@ The `image_picture` plugin is designed to address this issue in the TinyMCE edit
 
 Плагин image_picture предназначен для решения этой проблемы в редакторе TinyMCE. Он автоматически добавляет поддержку тега <picture>, который позволяет загружать разные версии изображений в зависимости от ширины экрана. Это делает ваш контент более гибким, а страницы — быстрее загружаемыми.
 
-#### 1. Иснтрукция на русском языке: [https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin)
-
-# Picture i Source plugin za TinyMCE – Responsivna slika u editoru
+#### 1. Инструкция на русском языке: [https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/useful/scripts-plugins/tinymce-picture-plugin)
 
 ---
+
+# Picture i Source plugin za TinyMCE – Responsivna slika u editoru
 
 Važno!!!
 1) Plugin je testiran na TinyMCE 5.2.1.
@@ -29,7 +29,7 @@ Važno!!!
 
 Plugin `image_picture` je dizajniran da reši ovaj problem u TinyMCE editoru. Automatski dodaje podršku za `<picture>` tag, koji omogućava učitavanje različitih verzija slika u zavisnosti od širine ekrana. Ovo čini vaš sadržaj fleksibilnijim, a stranice bržim za učitavanje.
 
-#### 1. Uputstvo na ruskom jeziku: [https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin)
+#### 1. Instrukcija na srpskom jeziku: [https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin](https://rband.pro/sr/useful/scripts-plugins/tinymce-picture-plugin)
 
 ![screenshot](images/1.png)
 ![screenshot](images/2.png)
