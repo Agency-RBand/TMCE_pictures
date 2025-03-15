@@ -22,7 +22,7 @@ tinymce.init({
     ...,
     external_plugins: {
         ... // Любые другие внешние плагины в вашей конфигурации
-        "image_picture": "plugins/image-picture/image-picture.js",
+        image_picture: "plugins/image-picture/image-picture.js",
     },
 });
 ```
