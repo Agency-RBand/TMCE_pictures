@@ -136,8 +136,8 @@ tinymce.PluginManager.add('image_picture', function (editor, url) {
 					image: { value: getRelativeUrl(img.src) },
 					alt: img.alt || '',
 					dimensions: {
-						width: img.width.toString(),
-						height: img.height.toString(),
+						width: img.hasAttribute('width') ? img.getAttribute('width') : img.width.toString(),
+						height: img.hasAttribute('height') ? img.getAttribute('height') : '',
 					},
 					caption: figcaption,
 				};
@@ -188,8 +188,8 @@ tinymce.PluginManager.add('image_picture', function (editor, url) {
 					image: { value: getRelativeUrl(img.src) },
 					alt: img.alt || '',
 					dimensions: {
-						width: img.width.toString(),
-						height: img.height.toString(),
+						width: img.hasAttribute('width') ? img.getAttribute('width') : img.width.toString(),
+						height: img.hasAttribute('height') ? img.getAttribute('height') : '',
 					},
 					caption: false,
 				};
